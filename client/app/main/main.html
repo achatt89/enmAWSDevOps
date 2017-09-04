@@ -10,6 +10,7 @@
       <table class="table table-hover tableFont">
         <thead>
         <tr>
+          <th>Name</th>
           <th>Instance ID</th>
           <th>Instance Type</th>
           <th>State</th>
@@ -19,12 +20,15 @@
         </thead>
         <tbody class="borderless">
         <tr ng-repeat="data in $ctrl.instanceList.Reservations">
-          <th>{{data.Instances[0].InstanceId}}</th>
-          <th>{{data.Instances[0].InstanceType}}</th>
-          <th ng-if="data.Instances[0].State.Name==='running'" ng-class="'glyphicon glyphicon-ok-circle fa-lg running'"></th>
-          <th ng-if="data.Instances[0].State.Name==='stopped'" ng-class="'glyphicon glyphicon-remove-circle fa-lg stopped'"></th>
-          <th>{{data.Instances[0].ImageId}}</th>
-          <th>{{data.Instances[0].KeyName}}</th>
+          <th class="col-md-2 col-lg-2">{{data.Instances[0].Tags[0].Value}}</th>
+          <th class="col-md-2 col-lg-2">{{data.Instances[0].InstanceId}}</th>
+          <th class="col-md-2 col-lg-2">{{data.Instances[0].InstanceType}}</th>
+          <th class="col-md-2 col-lg-2" ng-if="data.Instances[0].State.Name==='running'" title='Running'
+              ng-class="'glyphicon glyphicon-ok-circle fa-lg running'"></th>
+          <th class="col-md-2 col-lg-2" ng-if="data.Instances[0].State.Name==='stopped'" title='Stopped'
+              ng-class="'glyphicon glyphicon-remove-circle fa-lg stopped'"></th>
+          <th class="col-md-2 col-lg-2">{{data.Instances[0].ImageId}}</th>
+          <th class="col-md-2 col-lg-2">{{data.Instances[0].PublicIpAddress}}</th>
         </tr>
         </tbody>
       </table>

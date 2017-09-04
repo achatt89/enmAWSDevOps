@@ -24,6 +24,7 @@ export class MainController {
       .then(response => {
         if (typeof response.data === 'string') {
           this.instanceList = JSON.parse(response.data);
+          console.log(this.instanceList);
         }
       });
   }
