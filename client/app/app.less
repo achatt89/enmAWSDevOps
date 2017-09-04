@@ -3,6 +3,7 @@
 
 @icon-font-path: '/assets/fonts/bootstrap/';
 @fa-font-path: '/assets/fonts/font-awesome/';
+@eric-font-path: '/assets/fonts/EricssonCapitalTT.ttf';
 
 /**
  * App-wide Styles
@@ -15,7 +16,12 @@
   padding: 0.2em 0;
 }
 
+@font-face {
+  font-family: "Ericsson Capital TT";
+  src: url(@eric-font-path);
+}
 /* inject:less */
 @import 'main/main';
+@import '../components/navbar/navbar';
 @import '../components/modal/modal';
 /* endinject */
