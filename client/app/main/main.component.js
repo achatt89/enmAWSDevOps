@@ -1,4 +1,5 @@
 import angular from 'angular';
+
 const ngRoute = require('angular-route');
 import routing from './main.routes';
 
@@ -16,15 +17,13 @@ export class MainController {
     this.$http({
       method: 'GET',
       url: '/api/listAllInstances',
-      transformResponse: function(response)
-      {
+      transformResponse: function (response) {
         return response;
       }
     })
       .then(response => {
         if (typeof response.data === 'string') {
           this.instanceList = JSON.parse(response.data);
-          console.log(this.instanceList);
         }
       });
   }
