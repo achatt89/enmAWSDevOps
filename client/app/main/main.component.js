@@ -5,12 +5,12 @@ import routing from './main.routes';
 
 export class MainController {
   $http;
-
-  awesomeThings = [];
+  socket;
 
   /*@ngInject*/
-  constructor($http) {
+  constructor($http,socket) {
     this.$http = $http;
+    this.socket = socket;
   }
 
   $onInit() {
@@ -24,9 +24,16 @@ export class MainController {
       .then(response => {
         if (typeof response.data === 'string') {
           this.instanceList = JSON.parse(response.data);
+          this.socket.syncUpdates('instanceList', this.instanceList);
+          console.log(this.socket.syncUpdates('instanceList', this.instanceList));
           console.log(this.instanceList);
         }
       });
+
+    this.rowClick = function () {
+      this.showInstanceInfo = !this.showInstanceInfo;
+      console.log(this.showInstanceInfo);
+    };
   }
 }
 
