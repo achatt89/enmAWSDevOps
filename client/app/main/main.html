@@ -6,47 +6,34 @@
 
 <div class="container">
   <div class="row">
-    <div class="col-lg-12">
-      <table class="table table-hover tableFont">
-        <thead>
-        <tr>
-          <th>Name</th>
-          <th>Instance ID</th>
-          <th>Instance Type</th>
-          <th>State</th>
-          <th>Image ID</th>
-          <th>Public IP</th>
-        </tr>
-        </thead>
-        <tbody class="borderless">
-        <tr ng-repeat="data in $ctrl.instanceList.Reservations" ng-click="$ctrl.rowClick()" data-toggle="modal" data-target="#instanceInfoModal">
-          <td class="col-md-2 col-lg-2">{{data.Instances[0].Tags[0].Value}}</td>
-          <td class="col-md-2 col-lg-2">{{data.Instances[0].InstanceId}}</td>
-          <td class="col-md-2 col-lg-2">{{data.Instances[0].InstanceType}}</td>
-          <td class="col-md-2 col-lg-2" ng-if="data.Instances[0].State.Name==='running'" title='Running'>
-            <i class="ebIcon ebIcon_big ebIcon_tick"></i></td>
-          <td class="col-md-2 col-lg-2" ng-if="data.Instances[0].State.Name==='stopped'" title='Stopped'>
-            <i class="ebIcon ebIcon_big ebIcon_error"></i></td>
-          <td class="col-md-2 col-lg-2" ng-if="data.Instances[0].State.Name==='pending'" title='Pending'>
-            <i class="ebIcon ebIcon_big ebIcon_warning"></i></td>
-          <td class="col-md-2 col-lg-2" ng-if="data.Instances[0].State.Name==='stopping'" title='Stopping'>
-            <i class="ebIcon ebIcon_big ebIcon_invalid"></i></td>
-          <td class="col-md-2 col-lg-2">{{data.Instances[0].ImageId}}</td>
-          <td class="col-md-2 col-lg-2">{{data.Instances[0].PublicIpAddress}}</td>
-        </tr>
-        </tbody>
-      </table>
-
-      <div id='instanceInfoModal' class="modal fade" role="dialog">
-        <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            Header
+    <div class="col-lg-12 ericssonFont">
+      <div class="col-md-12 heading">
+        <div class="col-md-3">Name</div>
+        <div class="col-md-3">Instance ID</div>
+        <div class="col-md-2">Instance Type</div>
+        <div class="col-md-1">State</div>
+        <div class="col-md-2">Image ID</div>
+        <div class="col-md-1">Public IP</div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 rowSpacing" ng-repeat="data in $ctrl.instanceList.Reservations track by $index"
+             ng-click="$ctrl.showInfoDropDown($index)">
+          <div class="col-md-3">{{data.Instances[0].Tags[0].Value}}</div>
+          <div class="col-md-3">{{data.Instances[0].InstanceId}}</div>
+          <div class="col-md-2">{{data.Instances[0].InstanceType}}</div>
+          <div class="col-md-1" ng-if="data.Instances[0].State.Name==='running'" title='Running'><i
+            class="ebIcon ebIcon_big ebIcon_tick"></i></div>
+          <div class="col-md-1" ng-if="data.Instances[0].State.Name==='stopped'" title='Stopped'><i
+            class="ebIcon ebIcon_big ebIcon_error"></i></div>
+          <div class="col-md-1" ng-if="data.Instances[0].State.Name==='pending'" title='Pending'><i
+            class="ebIcon ebIcon_big ebIcon_warning"></i></div>
+          <div class="col-md-1" ng-if="data.Instances[0].State.Name==='stopping'" title='Stopping'><i
+            class="ebIcon ebIcon_big ebIcon_invalid"></i></div>
+          <div class="col-md-2">{{data.Instances[0].ImageId}}</div>
+          <div class="col-md-1">{{data.Instances[0].PublicIpAddress}}</div>
+          <div class="col-md-12" ng-if="$ctrl.showInstanceInfo === $index">
+            This IS INTERESTING
           </div>
-          <div class="modal-body">
-            SOME MODAL TEXT!
-          </div>
-        </div>
         </div>
       </div>
     </div>

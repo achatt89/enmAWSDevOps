@@ -8,7 +8,7 @@ export class MainController {
   socket;
 
   /*@ngInject*/
-  constructor($http,socket) {
+  constructor($http, socket) {
     this.$http = $http;
     this.socket = socket;
   }
@@ -25,14 +25,16 @@ export class MainController {
         if (typeof response.data === 'string') {
           this.instanceList = JSON.parse(response.data);
           this.socket.syncUpdates('instanceList', this.instanceList);
-          console.log(this.socket.syncUpdates('instanceList', this.instanceList));
-          console.log(this.instanceList);
+          // console.log('API RESPONSE: ', this.instanceList);
         }
       });
 
-    this.rowClick = function () {
-      this.showInstanceInfo = !this.showInstanceInfo;
-      console.log(this.showInstanceInfo);
+    this.showInfoDropDown = function (index) {
+      if (index === this.showInstanceInfo) {
+        this.showInstanceInfo = undefined;
+      } else {
+        this.showInstanceInfo = index;
+      }
     };
   }
 }
