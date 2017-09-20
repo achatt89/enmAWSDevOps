@@ -19,23 +19,36 @@
         </tr>
         </thead>
         <tbody class="borderless">
-        <tr ng-repeat="data in $ctrl.instanceList.Reservations">
-          <th class="col-md-2 col-lg-2">{{data.Instances[0].Tags[0].Value}}</th>
-          <th class="col-md-2 col-lg-2">{{data.Instances[0].InstanceId}}</th>
-          <th class="col-md-2 col-lg-2">{{data.Instances[0].InstanceType}}</th>
-          <th class="col-md-2 col-lg-2" ng-if="data.Instances[0].State.Name==='running'" title='Running'>
-            <i class="ebIcon ebIcon_big ebIcon_tick"></i></th>
-          <th class="col-md-2 col-lg-2" ng-if="data.Instances[0].State.Name==='stopped'" title='Stopped'>
-            <i class="ebIcon ebIcon_big ebIcon_error"></i></th>
-          <th class="col-md-2 col-lg-2" ng-if="data.Instances[0].State.Name==='pending'" title='Pending'>
-            <i class="ebIcon ebIcon_big ebIcon_warning"></i></th>
-          <th class="col-md-2 col-lg-2" ng-if="data.Instances[0].State.Name==='stopping'" title='Stopping'>
-            <i class="ebIcon ebIcon_big ebIcon_invalid"></i></th>
-          <th class="col-md-2 col-lg-2">{{data.Instances[0].ImageId}}</th>
-          <th class="col-md-2 col-lg-2">{{data.Instances[0].PublicIpAddress}}</th>
+        <tr ng-repeat="data in $ctrl.instanceList.Reservations" ng-click="$ctrl.rowClick()" data-toggle="modal" data-target="#instanceInfoModal">
+          <td class="col-md-2 col-lg-2">{{data.Instances[0].Tags[0].Value}}</td>
+          <td class="col-md-2 col-lg-2">{{data.Instances[0].InstanceId}}</td>
+          <td class="col-md-2 col-lg-2">{{data.Instances[0].InstanceType}}</td>
+          <td class="col-md-2 col-lg-2" ng-if="data.Instances[0].State.Name==='running'" title='Running'>
+            <i class="ebIcon ebIcon_big ebIcon_tick"></i></td>
+          <td class="col-md-2 col-lg-2" ng-if="data.Instances[0].State.Name==='stopped'" title='Stopped'>
+            <i class="ebIcon ebIcon_big ebIcon_error"></i></td>
+          <td class="col-md-2 col-lg-2" ng-if="data.Instances[0].State.Name==='pending'" title='Pending'>
+            <i class="ebIcon ebIcon_big ebIcon_warning"></i></td>
+          <td class="col-md-2 col-lg-2" ng-if="data.Instances[0].State.Name==='stopping'" title='Stopping'>
+            <i class="ebIcon ebIcon_big ebIcon_invalid"></i></td>
+          <td class="col-md-2 col-lg-2">{{data.Instances[0].ImageId}}</td>
+          <td class="col-md-2 col-lg-2">{{data.Instances[0].PublicIpAddress}}</td>
         </tr>
         </tbody>
       </table>
+
+      <div id='instanceInfoModal' class="modal fade" role="dialog">
+        <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            Header
+          </div>
+          <div class="modal-body">
+            SOME MODAL TEXT!
+          </div>
+        </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
