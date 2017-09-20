@@ -5,12 +5,12 @@ import routing from './main.routes';
 
 export class MainController {
   $http;
-
-  awesomeThings = [];
+  socket;
 
   /*@ngInject*/
-  constructor($http) {
+  constructor($http, socket) {
     this.$http = $http;
+    this.socket = socket;
   }
 
   $onInit() {
@@ -24,9 +24,32 @@ export class MainController {
       .then(response => {
         if (typeof response.data === 'string') {
           this.instanceList = JSON.parse(response.data);
-          console.log(this.instanceList);
+          this.socket.syncUpdates('instanceList', this.instanceList);
+          console.log('API RESPONSE: ', this.instanceList);
         }
       });
+
+    this.showInfoDropDown = function (index) {
+      this.showInstanceInfo = index;
+    };
+
+    this.hideInstanceInfo = function (index) {
+      if (index === this.showInstanceInfo) {
+        this.showInstanceInfo = undefined;
+      }
+    };
+
+    this.convertDateTime = function (str) {
+      return new Date(str);
+    };
+
+    this.restartInstance = function (index) {
+      console.log(index);
+    };
+
+    this.stopInstance = function (index) {
+      console.log(index);
+    };
   }
 }
 
