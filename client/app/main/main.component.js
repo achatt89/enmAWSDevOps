@@ -44,11 +44,33 @@ export class MainController {
     };
 
     this.restartInstance = function (index) {
-      console.log(index);
+      let instanceId = this.instanceList.Reservations[index].Instances[0].InstanceId;
+
+      this.$http({
+        method: 'PUT',
+        url: '/api/restarts',
+        data: {instanceId: instanceId},
+        transformResponse: function (response) {
+          return response;
+        }
+      }).then(response => {
+        console.log('API RESTART RESPONSE: ', response.data);
+      });
     };
 
     this.stopInstance = function (index) {
-      console.log(index);
+      let instanceId = this.instanceList.Reservations[index].Instances[0].InstanceId;
+
+      this.$http({
+        method: 'PUT',
+        url: '/api/stops',
+        data: {instanceId: instanceId},
+        transformResponse: function (response) {
+          return response;
+        }
+      }).then(response => {
+        console.log('API RESTART RESPONSE: ', response.data);
+      });
     };
   }
 }

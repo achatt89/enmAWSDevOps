@@ -1,25 +1,29 @@
 /**
  * Using Rails-like standard naming convention for endpoints.
- * GET     /api/listAllInstancess              ->  index
+ * GET     /api/restarts              ->  index
  */
 
 'use strict';
 
 let aws = require('aws-sdk');
-let util = require('util');
 
 aws.config.update({region: 'eu-west-1'});
 
 let ec2 = new aws.EC2();
 
-// Gets a list of ListAllInstances
+// Stops an Instance
 export function index(request, response) {
-  ec2.describeInstances(function (error, data) {
+  let params = {
+    InstanceIds: [request.body.instanceId],
+    DryRun: false
+  };
+
+  //Call EC2 to start the selected instance
+  ec2.stopInstances(params, function (error, data) {
     if (error) {
       response.json(error);
-    }
-    else {
-      callback(util.format('%j', data));
+    } else {
+      callback(data);
     }
   });
 
