@@ -25,16 +25,30 @@ export class MainController {
         if (typeof response.data === 'string') {
           this.instanceList = JSON.parse(response.data);
           this.socket.syncUpdates('instanceList', this.instanceList);
-          // console.log('API RESPONSE: ', this.instanceList);
+          console.log('API RESPONSE: ', this.instanceList);
         }
       });
 
     this.showInfoDropDown = function (index) {
+      this.showInstanceInfo = index;
+    };
+
+    this.hideInstanceInfo = function (index) {
       if (index === this.showInstanceInfo) {
         this.showInstanceInfo = undefined;
-      } else {
-        this.showInstanceInfo = index;
       }
+    };
+
+    this.convertDateTime = function (str) {
+      return new Date(str);
+    };
+
+    this.restartInstance = function (index) {
+      console.log(index);
+    };
+
+    this.stopInstance = function (index) {
+      console.log(index);
     };
   }
 }
