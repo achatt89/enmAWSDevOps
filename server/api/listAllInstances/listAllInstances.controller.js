@@ -5,12 +5,12 @@
 
 'use strict';
 
-var aws = require('aws-sdk');
-var util = require('util');
+let aws = require('aws-sdk');
+let util = require('util');
 
 aws.config.update({region: 'eu-west-1'});
 
-var ec2 = new aws.EC2();
+let ec2 = new aws.EC2();
 
 // Gets a list of ListAllInstances
 export function index(request, response) {
@@ -22,6 +22,7 @@ export function index(request, response) {
       callback(util.format('%j', data));
     }
   });
+
   function callback(data) {
     response.send(data);
   }

@@ -7,7 +7,6 @@
 
 let aws = require('aws-sdk');
 
-
 aws.config.update({region: 'eu-west-1'});
 
 let ec2 = new aws.EC2();
@@ -18,7 +17,7 @@ export function index(request, response) {
     InstanceIds: [request.body.instanceId],
     DryRun: false
   };
-  console.log('PUT DATAA:', request.body);
+  
   //Call EC2 to start the selected instance
   ec2.stopInstances(params, function (error, data) {
     if (error) {

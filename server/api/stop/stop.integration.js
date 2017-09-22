@@ -2,12 +2,12 @@
 
 /* globals describe, expect, it, beforeEach, afterEach */
 
-var app = require('../..');
+let app = require('../..');
 import request from 'supertest';
 
 describe('Stop API:', function() {
   describe('GET /api/stops', function() {
-    var stops;
+    let stops;
 
     beforeEach(function(done) {
       request(app)
