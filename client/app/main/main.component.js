@@ -34,9 +34,7 @@ export class MainController {
     };
 
     this.hideInstanceInfo = function (index) {
-      if (index === this.showInstanceInfo) {
-        this.showInstanceInfo = undefined;
-      }
+      this.showInstanceInfo = undefined;
     };
 
     this.convertDateTime = function (str) {
