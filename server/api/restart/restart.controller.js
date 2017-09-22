@@ -18,7 +18,7 @@ export function index(request, response) {
     InstanceIds: [request.body.instanceId],
     DryRun: false
   };
-
+  
   //Call EC2 to start the selected instance
   ec2.startInstances(params, function (error, data) {
     if (error) {
