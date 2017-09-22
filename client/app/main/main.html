@@ -15,7 +15,7 @@
         <div class="col-md-2"><strong>Public IP</strong></div>
       </div>
       <div class="row">
-        <div class="col-md-12 rowSpacing" ng-repeat="data in $ctrl.instanceList.Reservations track by $index"
+        <div class="col-md-12 rowStyle" ng-repeat="data in $ctrl.instanceList.Reservations track by $index"
              ng-click="$ctrl.showInfoDropDown($index)">
           <div class="col-md-5">{{data.Instances[0].Tags[0].Value}}</div>
           <div class="col-md-2">{{data.Instances[0].InstanceType}}</div>
@@ -34,21 +34,36 @@
 
           <!--EC2 Instance Info Drop Down-->
           <div class="col-md-12 instanceDropDown" ng-if="$ctrl.showInstanceInfo === $index">
-            <div class="col-md-12"><span class="pull-right"ng-click="$ctrl.hideInstanceInfo($index)">X</span></div>
-            <div class="col-md-3" ng-if="!data.Instances[0].EbsOptimized"><strong>EBS Optimised:</strong> FALSE</div>
-            <div class="col-md-3" ng-if="data.Instances[0].EbsOptimized"><strong>EBS Optimised:</strong> TRUE</div>
-            <div class="col-md-4"><strong>Instance ID:</strong> {{data.Instances[0].InstanceId}}</div>
-            <div class="col-md-3"><strong>Launch Date:</strong>
-              {{$ctrl.convertDateTime(data.Instances[0].LaunchTime) |date:'dd/MMM/yyyy'}}
-            </div>
-
-
-
             <div class="col-md-12">
-              <button type="button" class="btn btn-danger" ng-if="data.Instances[0].State.Name ==='running'" ng-click="$ctrl.stopInstance($index)">Stop Instance</button>
+              <span class="pull-right" ng-click="!$ctrl.showInstanceInfo">X</span>
             </div>
-            <div class="col-md-12">
-              <button type="button" class="btn btn-success" ng-if="data.Instances[0].State.Name ==='stopped'" ng-click="$ctrl.restartInstance($index)">Restart Instance</button>
+            <table class="table table-hover">
+              <thead>
+              <tr>
+                <th>EBS Instance</th>
+                <th>Key Name</th>
+                <th>Instance ID</th>
+                <th>Subnet ID</th>
+                <th>Launch Date</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td>{{data.Instances[0].EbsOptimized}}</td>
+                <td>{{data.Instances[0].KeyName}}</td>
+                <td>{{data.Instances[0].InstanceId}}</td>
+                <td>{{data.Instances[0].SubnetId}}</td>
+                <td>{{$ctrl.convertDateTime(data.Instances[0].LaunchTime) |date:'dd/MMM/yyyy'}}</td>
+              </tr>
+              </tbody>
+            </table>
+
+            <div class="col-md-2">
+              <button type="button" class="btn btn-success adjustButton" ng-if="data.Instances[0].State.Name ==='stopped'" ng-click="$ctrl.restartInstance($index)">Restart Instance</button>
+              <button type="button" class="btn btn-danger adjustButton" ng-if="data.Instances[0].State.Name ==='running'" ng-click="$ctrl.stopInstance($index)">Stop Instance</button>
+            </div>
+            <div class="col-md-2">
+              <button type="button" class="btn btn-warning" ng-click="$ctrl.cloneInstance($index)">Clone Instance</button>
             </div>
           </div>
         </div>
