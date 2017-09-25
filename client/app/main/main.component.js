@@ -10,7 +10,8 @@ export class MainController {
   /*@ngInject*/
   constructor($http, socket) {
     this.$http = $http;
-    this.socket = socket;
+    this.socketIO = socket;
+    this.socketIO.socket.connect('http://localhost:4000');
   }
 
   $onInit() {
@@ -23,8 +24,17 @@ export class MainController {
     })
       .then(response => {
         if (typeof response.data === 'string') {
+          let socket = this.socketIO.socket;
+          socket.on('connect', function (data) {
+            socket.emit('join', 'Client Side Channel Connected');
+            console.log(socket);
+          });
+
+          // socket.on('response', function (data) {
+          //   console.log('Server Message: ', data);
+          // });
+
           this.instanceList = JSON.parse(response.data);
-          this.socket.syncUpdates('instanceList', this.instanceList);
           console.log('API RESPONSE: ', this.instanceList);
         }
       });
