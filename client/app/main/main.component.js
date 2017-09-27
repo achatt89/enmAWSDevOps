@@ -23,17 +23,11 @@ export class MainController {
       }
     })
       .then(response => {
+        let socket = this.socketIO.socket;
+        socket.on('fetchInstanceList', function (data) {
+          console.log(data);
+        });
         if (typeof response.data === 'string') {
-          let socket = this.socketIO.socket;
-          socket.on('connect', function (data) {
-            socket.emit('join', 'Client Side Channel Connected');
-            console.log(socket);
-          });
-
-          // socket.on('response', function (data) {
-          //   console.log('Server Message: ', data);
-          // });
-
           this.instanceList = JSON.parse(response.data);
           console.log('API RESPONSE: ', this.instanceList);
         }

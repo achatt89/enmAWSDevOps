@@ -14,16 +14,19 @@ let ec2 = new aws.EC2();
 
 // Gets a list of ListAllInstances
 export function index(request, response) {
+  var io = request.app.get('io');
   ec2.describeInstances(function (error, data) {
     if (error) {
       response.json(error);
     }
     else {
-      callback(util.format('%j', data));
+      // io.emit('fetchInstanceList', response.send(util.format('%s', data)));
+      callback(util.format('%j', data), io);
     }
   });
 
-  function callback(data) {
+  function callback(data, io) {
     response.send(data);
+    // io.emit('fetchInstanceList', response.send(data));
   }
 }
