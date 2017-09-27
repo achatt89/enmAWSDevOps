@@ -9,6 +9,8 @@ import path from 'path';
 
 export default function (app) {
   // Insert routes below
+  app.use('/api/createImages', require('./api/createImage'));
+  app.use('/api/clones', require('./api/clone'));
   app.use('/api/stops', require('./api/stop'));
   app.use('/api/restarts', require('./api/restart'));
   app.use('/api/listAllInstances', require('./api/listAllInstances'));
