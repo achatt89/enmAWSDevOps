@@ -14,19 +14,101 @@ let ec2 = new aws.EC2();
 
 // Restarts an Instance
 export function index(request, response) {
-  let params = {
-    InstanceIds: [request.body.instanceId],
-    DryRun: false
+  let createAMIParams = {
+    InstanceId: request.body.instanceId,
+    Name: request.body.instanceName,
+    BlockDeviceMappings: [{
+      DeviceName: '/dev/sda1',
+      Ebs: {
+        DeleteOnTermination: true
+      }
+    }],
+    Description: 'Cloned Instance',
+    DryRun: false,
+    NoReboot: true
   };
 
-  //Call EC2 to start the selected instance
-  ec2.startInstances(params, function (error, data) {
+  //Create AMI based on the instanceID
+  ec2.createImage(createAMIParams, function (error, data) {
     if (error) {
       response.json(error);
     } else {
-      callback(data);
+      console.log(data.ImageId);
+      waitForAMIState(data);
     }
   });
+
+  function waitForAMIState(data) {
+    let runInstanceParams = {
+      ImageId: data.ImageId,
+      MaxCount: 1,
+      MinCount: 1,
+      BlockDeviceMappings: [{
+        DeviceName: '/dev/sda1',
+        Ebs: {
+          DeleteOnTermination: true,
+        },
+      }],
+      DryRun: false,
+      InstanceInitiatedShutdownBehavior: 'stop',
+      KeyName: request.body.keyName,
+      InstanceType: request.body.instanceType,
+      TagSpecifications: [{
+        ResourceType: 'instance',
+        Tags: [{
+          Key: 'Name',
+          Value: request.body.instanceName
+        }]
+      }]
+    };
+
+    let waitForParams = {
+      ImageIds: [data.ImageId],
+    };
+
+    let deRegisterImageParams = {
+      ImageId: data.ImageId
+    };
+
+    //Wait for new Image to have the ready state
+    ec2.waitFor('imageAvailable', waitForParams, function (error, data) {
+      if (error) {
+        response.json(error);
+      } else {
+        console.log('WAIT FOR: ', data);
+        if (data) {
+
+          //Create Instance from AMI Image
+          runInstance(runInstanceParams, deRegisterImageParams);
+        }
+      }
+    });
+  }
+
+  function deleteImage(deRegisterImageParams) {
+    ec2.deregisterImage(deRegisterImageParams, function (error, data) {
+      if (error) {
+        response.json(error);
+      } else {
+        console.log('Deleted AMI: ', data);
+        response.send(data);
+      }
+    });
+  }
+
+  function runInstance(runInstanceParams) {
+    ec2.runInstances(runInstanceParams, function (error, data) {
+      if (error) {
+        response.json(error);
+
+        //Delete AMI if not successful
+        deleteImage();
+      } else {
+        console.log('RUN INSTANCE OUTPUT: ', data);
+        callback(data);
+      }
+    });
+  }
 
   function callback(data) {
     response.send(data);

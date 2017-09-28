@@ -5,6 +5,6 @@ var controller = require('./clone.controller');
 
 var router = express.Router();
 
-router.get('/', controller.index);
+router.put('/', controller.index);
 
 module.exports = router;

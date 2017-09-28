@@ -45,6 +45,31 @@ export class MainController {
       return new Date(str);
     };
 
+    this.cloneInstance = function (index) {
+      let instanceId = this.instanceList.Reservations[index].Instances[0].InstanceId;
+      let instanceName = this.instanceList.Reservations[index].Instances[0].Tags[0].Value + '_copy1';
+      let instanceType = this.instanceList.Reservations[index].Instances[0].InstanceType;
+      let keyName = this.instanceList.Reservations[index].Instances[0].KeyName;
+
+      this.$http({
+        method: 'PUT',
+        url: 'api/clones',
+        data: {
+          instanceId: instanceId,
+          instanceName: instanceName,
+          instanceType: instanceType,
+          keyName: keyName,
+
+        },
+
+        transformResponse: function (response) {
+          return response;
+        }
+      }).then(response => {
+        console.log('API CLONE RESPONSE: ', response.data);
+      });
+    };
+
     this.restartInstance = function (index) {
       let instanceId = this.instanceList.Reservations[index].Instances[0].InstanceId;
 
