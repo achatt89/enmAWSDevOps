@@ -27,7 +27,5 @@ export function index(request, response) {
     }
   });
 
-  function callback(data) {
-    response.send(data);
-  }
+  let callback = data => response.send(data);
 }
