@@ -28,7 +28,8 @@
             <i class="ebIcon ebIcon_big ebIcon_warning"></i></div>
           <div class="col-md-1" ng-if="data.Instances[0].State.Name==='stopping'" title='Stopping'>
             <i class="ebIcon ebIcon_big ebIcon_invalid"></i></div>
-
+          <div class="col-md-1" ng-if="data.Instances[0].State.Name==='terminated'" title='Terminated'>
+            <i class="ebIcon ebIcon_big ebIcon_obsolete"></i></div>
           <div class="col-md-2">{{data.Instances[0].ImageId}}</div>
           <div class="col-md-2">{{data.Instances[0].PublicIpAddress}}</div>
 

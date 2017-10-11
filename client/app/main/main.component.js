@@ -47,9 +47,10 @@ export class MainController {
 
     this.cloneInstance = function (index) {
       let instanceId = this.instanceList.Reservations[index].Instances[0].InstanceId;
-      let instanceName = this.instanceList.Reservations[index].Instances[0].Tags[0].Value + '_copy1';
+      let instanceName = this.instanceList.Reservations[index].Instances[0].Tags[0].Value + '_copy_2';
       let instanceType = this.instanceList.Reservations[index].Instances[0].InstanceType;
       let keyName = this.instanceList.Reservations[index].Instances[0].KeyName;
+      let deviceName = this.instanceList.Reservations[index].Instances[0].RootDeviceName;
 
       this.$http({
         method: 'PUT',
@@ -59,6 +60,7 @@ export class MainController {
           instanceName: instanceName,
           instanceType: instanceType,
           keyName: keyName,
+          rootDeviceName: deviceName
 
         },
 

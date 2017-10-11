@@ -18,7 +18,7 @@ export function index(request, response) {
     InstanceId: request.body.instanceId,
     Name: request.body.instanceName,
     BlockDeviceMappings: [{
-      DeviceName: '/dev/sda1',
+      DeviceName: request.body.rootDeviceName,
       Ebs: {
         DeleteOnTermination: true
       }
@@ -44,7 +44,7 @@ export function index(request, response) {
       MaxCount: 1,
       MinCount: 1,
       BlockDeviceMappings: [{
-        DeviceName: '/dev/sda1',
+        DeviceName: '/dev/xvda',
         Ebs: {
           DeleteOnTermination: true,
         },
@@ -77,7 +77,6 @@ export function index(request, response) {
       } else {
         console.log('WAIT FOR: ', data);
         if (data) {
-
           //Create Instance from AMI Image
           runInstance(runInstanceParams, deRegisterImageParams);
         }
@@ -102,7 +101,7 @@ export function index(request, response) {
         response.json(error);
 
         //Delete AMI if not successful
-        deleteImage();
+        // deleteImage();
       } else {
         console.log('RUN INSTANCE OUTPUT: ', data);
         callback(data);
