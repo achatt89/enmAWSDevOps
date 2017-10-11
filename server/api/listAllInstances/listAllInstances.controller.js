@@ -25,8 +25,5 @@ export function index(request, response) {
     }
   });
 
-  function callback(data, io) {
-    response.send(data);
-    // io.emit('fetchInstanceList', response.send(data));
-  }
+  let callback = data => response.send(data);
 }

@@ -18,9 +18,7 @@ export class MainController {
     this.$http({
       method: 'GET',
       url: '/api/listAllInstances',
-      transformResponse: function (response) {
-        return response;
-      }
+      transformResponse: response => response
     })
       .then(response => {
         let socket = this.socketIO.socket;
@@ -33,17 +31,9 @@ export class MainController {
         }
       });
 
-    this.showInfoDropDown = function (index) {
-      this.showInstanceInfo = index;
-    };
-
-    this.hideInstanceInfo = function (index) {
-      this.showInstanceInfo = undefined;
-    };
-
-    this.convertDateTime = function (str) {
-      return new Date(str);
-    };
+    this.showInfoDropDown = index => {this.showInstanceInfo = index;};
+    // this.hideInstanceInfo = () => {this.showInstanceInfo = undefined;};
+    this.convertDateTime = str => new Date(str);
 
     this.cloneInstance = function (index) {
       let instanceId = this.instanceList.Reservations[index].Instances[0].InstanceId;
@@ -61,12 +51,8 @@ export class MainController {
           instanceType: instanceType,
           keyName: keyName,
           rootDeviceName: deviceName
-
         },
-
-        transformResponse: function (response) {
-          return response;
-        }
+        transformResponse: response => response
       }).then(response => {
         console.log('API CLONE RESPONSE: ', response.data);
       });
@@ -79,9 +65,7 @@ export class MainController {
         method: 'PUT',
         url: '/api/restarts',
         data: {instanceId: instanceId},
-        transformResponse: function (response) {
-          return response;
-        }
+        transformResponse: response => response
       }).then(response => {
         console.log('API RESTART RESPONSE: ', response.data);
       });
