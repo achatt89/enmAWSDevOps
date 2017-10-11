@@ -38,7 +38,7 @@ export function index(request, response) {
     }
   });
 
-  function waitForAMIState(data) {
+  let waitForAMIState = data => {
     let runInstanceParams = {
       ImageId: data.ImageId,
       MaxCount: 1,
@@ -82,9 +82,9 @@ export function index(request, response) {
         }
       }
     });
-  }
+  };
 
-  function deleteImage(deRegisterImageParams) {
+  let deleteImage = deRegisterImageParams => {
     ec2.deregisterImage(deRegisterImageParams, function (error, data) {
       if (error) {
         response.json(error);
@@ -93,21 +93,22 @@ export function index(request, response) {
         response.send(data);
       }
     });
-  }
+  };
 
-  function runInstance(runInstanceParams) {
+  let runInstance = runInstanceParams => {
     ec2.runInstances(runInstanceParams, function (error, data) {
       if (error) {
         response.json(error);
 
         //Delete AMI if not successful
-        // deleteImage();
+        deleteImage();
       } else {
         console.log('RUN INSTANCE OUTPUT: ', data);
+
         callback(data);
       }
     });
-  }
+  };
 
   let callback = data => response.send(data);
 }
